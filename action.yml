@@ -61,8 +61,8 @@ runs:
       run: |
         git config --local user.name "${{ inputs.committer-name }}"
         git config --local user.email "${{ inputs.committer-email }}"
-        pip install python-semantic-release
-        semantic-release publish
+        poetry run semantic-release --help
+        poetry run semantic-release publish
     - name: Run Releaser
       shell: bash
       run: conventional-github-releaser -p angular || exit 0
