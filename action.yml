@@ -51,18 +51,17 @@ runs:
         poetry install
     - name: Install Node Dependencies
       shell: bash
-      run: npm install -g conventional-github-releaser
+      run: |
+        npm install -g conventional-github-releaser
+        git config --local user.name "${{ inputs.committer-name }}"
+        git config --local user.email "${{ inputs.committer-email }}"
     - name: Build and Publish
       shell: bash
       env:
         GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
         PYPI_USERNAME: __token__
         PYPI_PASSWORD: ${{ inputs.PYPI_TOKEN }}
-      run: |
-        git config --local user.name "${{ inputs.committer-name }}"
-        git config --local user.email "${{ inputs.committer-email }}"
-        poetry run semantic-release --help
-        poetry run semantic-release publish
+      run: poetry run semantic-release publish --verbosity=DEBUG
     - name: Run Releaser
       shell: bash
       run: conventional-github-releaser -p angular || exit 0
