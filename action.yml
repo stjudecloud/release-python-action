@@ -1,0 +1,70 @@
+name: "Release Python via Poetry"
+description: "Github Action to release a Poetry-based Python app as we regularly do on the St. Jude Cloud project."
+inputs:
+  GITHUB_SECRET:
+    description: "The token used to publish releases to Github."
+    required: true 
+  PYPI_TOKEN:
+    description: "The token used to publish releases to PyPI."
+    required: true 
+  python-version:
+    description: "Version range or exact version of a Python version to use, using SemVer's version range syntax."
+    required: false
+    default: "3.x"
+  node-version:
+    description: "Version range or exact version of a Node version to use, using SemVer's version range syntax."
+    required: false
+    default: "15.x"
+  committer-name:
+    description: "Name to use when commiting version updates to the repository."
+    required: false
+    default: "St. Jude Cloud"
+  committer-email:
+    description: "Email to use when commiting version updates to the repository."
+    required: false
+    default: "support@stjude.cloud"
+runs:
+  using: "composite"
+  steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ inputs.python-version }} 
+    - name: Setup Node
+      uses: actions/setup-node@v2
+      with:
+        node-version: ${{ inputs.node-version }} 
+    - name: Cache Dependencies
+      uses: actions/cache@v2
+      with:
+        path: ~/.cache/pypoetry/
+        key: ${{ runner.os }}-poetry-${{ hashFiles("poetry.lock") }}
+        restore-keys: |
+          ${{ runner.os }}-poetry-
+    - name: Install Python Dependencies
+      shell: bash
+      run: |
+        python3 -m pip install --upgrade setuptools poetry pip
+        poetry config virtualenvs.create false
+        poetry install
+    - name: Install Node Dependencies
+      shell: bash
+      run: npm install -g conventional-github-releaser
+    - name: Build and Publish
+      shell: bash
+      env:
+        GITHUB_TOKEN: ${{ inputs.GITHUB_TOKEN }}
+        PYPI_USERNAME: __token__
+        PYPI_PASSWORD: ${{ inputs.PYPI_TOKEN }}
+      run: |
+        git config --local user.name ${{ inputs.committer-name }}
+        git config --local user.email ${{ inputs.committer-email }}
+        semantic-release publish
+    - name: Run Releaser
+      shell: bash
+      run: conventional-github-releaser -p angular || exit 0
+      env:
+        DEBUG: conventional-github-releaser
+        CONVENTIONAL_GITHUB_RELEASER_TOKEN: ${{ inputs.GITHUB_TOKEN }}
