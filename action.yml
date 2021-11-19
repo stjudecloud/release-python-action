@@ -40,7 +40,7 @@ runs:
       uses: actions/cache@v2
       with:
         path: ~/.cache/pypoetry/
-        key: ${{ runner.os }}-poetry-${{ hashFiles("poetry.lock") }}
+        key: ${{ runner.os }}-poetry-${{ hashFiles('poetry.lock') }}
         restore-keys: |
           ${{ runner.os }}-poetry-
     - name: Install Python Dependencies
