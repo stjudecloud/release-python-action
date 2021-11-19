@@ -1,7 +1,7 @@
 name: "Release Python via Poetry"
 description: "Github Action to release a Poetry-based Python app as we regularly do on the St. Jude Cloud project."
 inputs:
-  GITHUB_SECRET:
+  GITHUB_TOKEN:
     description: "The token used to publish releases to Github."
     required: true 
   PYPI_TOKEN:
