@@ -59,8 +59,8 @@ runs:
         PYPI_USERNAME: __token__
         PYPI_PASSWORD: ${{ inputs.PYPI_TOKEN }}
       run: |
-        git config --local user.name ${{ inputs.committer-name }}
-        git config --local user.email ${{ inputs.committer-email }}
+        git config --local user.name "${{ inputs.committer-name }}"
+        git config --local user.email "${{ inputs.committer-email }}"
         semantic-release publish
     - name: Run Releaser
       shell: bash
