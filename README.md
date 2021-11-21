@@ -6,11 +6,16 @@ generally, provided your package conforms the following set of prerequisites:
 
 - [Poetry] is used for package management.
 - [Conventional commits] are used to describe changes to the project.
-- You'd like to use [python-semantic-release] to automate semantic releases
-  to PyPI.
-- You'd like to use [conventional-github-releaser] for release notes on Github
-  (we've found this to be better than using [python-semantic-release] for this
-  purpose).
+
+This action will always complete the following tasks, though we may change how
+it achieves them in future releases.
+
+- Automate releases to PyPI using conventional commits/semantic releases.
+    - Currently [python-semantic-release] is used to achieve this.
+- Automate release to Github using conventional commits/semantic releases.
+    - Currently [conventional-github-releaser] is used to achieve this (we've)
+      found this to be better than using `python-semantic-release` for this
+      purpose).
 
 ## Setup
 
