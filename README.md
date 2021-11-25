@@ -45,7 +45,8 @@ You'll need to complete a few more steps to ensure things work correctly:
 
 - [ ] Add `python-semantic-release` to your dev dependencies (`poetry add -D python-semantic-release`).
 - [ ] Ensure the branch above matches your default branch. If your default 
-      branch is `main`, be sure to change it! 
+      branch is `main`, be sure to change it both in the Github Action and
+      the `pyproject.yml` entry from `tool.semantic_release`! 
 - [ ] Make sure you add a `PYPI_TOKEN` secret to your repository so that the
       package can be published successfully.
 - [ ] Ensure you have a complete `pyproject.toml` file. You'll need to set the
@@ -56,6 +57,7 @@ You'll need to complete a few more steps to ensure things work correctly:
 
 ```toml
 [tool.semantic_release]
+branch = "master"
 build_command = "poetry build"
 commit_author = "St. Jude Cloud <support@stjude.cloud>"
 commit_message = ""
