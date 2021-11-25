@@ -43,6 +43,7 @@ jobs:
 
 You'll need to complete a few more steps to ensure things work correctly:
 
+- [ ] Add `python-semantic-release` to your dev dependencies (`poetry add -D python-semantic-release`).
 - [ ] Ensure the branch above matches your default branch. If your default 
       branch is `main`, be sure to change it! 
 - [ ] Make sure you add a `PYPI_TOKEN` secret to your repository so that the
