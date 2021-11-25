@@ -23,6 +23,11 @@ inputs:
     description: "Email to use when commiting version updates to the repository."
     required: false
     default: "support@stjude.cloud"
+  run-pytest:
+    description: "Runs pytest before release"
+    required: false
+    default: false
+    type: boolean
 runs:
   using: "composite"
   steps:
@@ -55,6 +60,10 @@ runs:
         npm install -g conventional-github-releaser
         git config --local user.name "${{ inputs.committer-name }}"
         git config --local user.email "${{ inputs.committer-email }}"
+    - name: Run Pytest
+      if: ${{ inputs.run-pytest }}
+      shell: bash
+      run: poetry run pytest
     - name: Build and Publish
       shell: bash
       env:
