@@ -61,7 +61,7 @@ runs:
         git config --local user.name "${{ inputs.committer-name }}"
         git config --local user.email "${{ inputs.committer-email }}"
     - name: Run Pytest
-      if: ${{ inputs.run-pytest }}
+      if: ${{ inputs.run-pytest == true }}
       shell: bash
       run: poetry run pytest
     - name: Build and Publish
